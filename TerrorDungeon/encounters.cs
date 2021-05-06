@@ -21,12 +21,13 @@ namespace TerrorDungeon
             Console.WriteLine("Lokalny bandzior ze sztyletem szarżuje prosto na Ciebie.");
             Console.ReadKey();
             Console.Clear();
-            Combat(false, "Ranny Bandyta", 30, 4, 0, 55,500);
+            Combat(false, "Ranny Bandyta", 30, 4, 0, 0,0);
 
         }
 
 
         //Encounter Tools
+
         public static void Combat(bool random, string name, int health, int power, int armor, double eCritChance, double eCritMulti)
         {
             string n = "";
@@ -209,7 +210,19 @@ namespace TerrorDungeon
                     }    
 
                 }
-                Console.ReadKey();
+                while (h <= 0)
+                {
+                    Console.WriteLine("Twój przeciwnik leży na ziemi w kałuży krwi.\n");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine("Podchodzisz, aby zebrać to, co z niego zostało i znajdujesz:\n");
+                    Console.ReadKey();
+                    int coinsLoot = rand.Next(5, 21);
+                    Console.WriteLine(coinsLoot + " monet");
+                    Program.currentPlayer.coins += coinsLoot;
+                    Console.ReadLine();
+                    break;
+                }
 
             }
         }
