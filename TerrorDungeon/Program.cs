@@ -58,6 +58,7 @@ namespace TerrorDungeon
             Console.ReadKey();
             Console.Clear();
             encounters.Encounter1();
+            Console.ReadKey();
         }
     }
 }

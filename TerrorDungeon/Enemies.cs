@@ -8,7 +8,7 @@ namespace TerrorDungeon
 {
     class Enemies
     {
-        string enemyName = "";
+        /*string enemyName = "";
         int enemyHealth = 0;
         int enemyPower = 0;
         int enemyArmor = 0;
@@ -18,5 +18,18 @@ namespace TerrorDungeon
             int h = 100;
         }
 
+    } /* 
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       * Combat(false, "Ranny Bandyta", 30, 4);
+       */
     }
 }

@@ -21,17 +21,25 @@ namespace TerrorDungeon
             Console.WriteLine("Lokalny bandzior ze sztyletem szarżuje prosto na Ciebie.");
             Console.ReadKey();
             Console.Clear();
-            Combat(false, "Ranny Bandyta", 30, 4);
+            Combat(false, "Ranny Bandyta", 30, 4, 0, 55,500);
 
         }
 
 
         //Encounter Tools
-        public static void Combat(bool random, string name, int health, int power)
+        public static void Combat(bool random, string name, int health, int power, int armor, double eCritChance, double eCritMulti)
         {
             string n = "";
             int p = 0;
             double h = 0;
+            int a = 0;
+            // MONSTER crit chance & multi
+            double eCC = 0.95;
+            double eCM = 2;
+            // PLAYER crit chance & multi
+            double pCC = 0.95;
+            double pCM = 2;
+
 
             if (random)
             {
@@ -42,6 +50,13 @@ namespace TerrorDungeon
                 n = name;
                 p = power;
                 h = health;
+                a = armor;
+                // MONSTER Crit chance & multi
+                eCC -= (eCritChance / 100);
+                eCM += (eCritMulti / 100);
+                // PLAYER crit chance & multi
+                pCC -= (Program.currentPlayer.weaponCritChance / 100);
+                pCM += (Program.currentPlayer.weaponCritDmgMult / 100);
             }
             while(h > 0)
             {
@@ -61,23 +76,41 @@ namespace TerrorDungeon
                 if(input1.ToLower() == "a" || input1.ToLower() == "atakuj")
                 {
                     // ATAK
-                    double criticalHitDmgMult = 1;
-                    if (rand2.Next(1, 21) > 1)
-                        criticalHitDmgMult = 2 + Program.currentPlayer.weaponCritDmgMult;
 
-                    double attack = (rand.Next(2, Program.currentPlayer.weaponPower) + rand.Next(1, 4)) * criticalHitDmgMult;
-                    int damage = p - Program.currentPlayer.armorValue;
-                    if(damage < 0)
+                    double randomCritValueP = rand2.NextDouble();
+                    double randomCritValueE = rand2.NextDouble();
+
+                    if (randomCritValueP > pCC)
                     {
-                        damage = 0;
+                        double attack = (rand.Next(2, Program.currentPlayer.weaponPower) + rand.Next(1, 4) * pCM ) - a;
+                        Console.WriteLine("KRYTYK! Zadajesz dodatkowe " +pCM*100+"% obrażeń");
+                        Console.WriteLine("Wykonujesz zamach bronią i uderzasz " + n + " za łącznie " + attack + " punktów życia.");
+                        Console.WriteLine("==========================\n");
+                        h -= attack;
                     }
-                    if (criticalHitDmgMult >= 2)
-                        Console.WriteLine("KRYTYK! Zadajesz " + criticalHitDmgMult * 100 + "% obrażeń!");
-                    Console.WriteLine("Wykonujesz zamach bronią i uderzasz " +name+" za "+ attack+" obrażeń");
-                    Console.WriteLine("Samemu otrzymujesz " + damage + " obrażeń");
+                    else
+                    {
+                        double attack = (rand.Next(2, Program.currentPlayer.weaponPower) + rand.Next(1, 4))- a;
+                        Console.WriteLine("Wykonujesz zamach bronią i uderzasz " + n + " za " + attack + " punktów życia.");
+                        Console.WriteLine("==========================\n");
+                        h -= attack;
+                    }
 
-                    Program.currentPlayer.health -= damage;
-                    h -= attack;
+
+                    if (randomCritValueE > eCC)
+                    {
+                        double damage = (rand.Next(1, p) * eCM) - Program.currentPlayer.armorValue;
+                        Console.WriteLine("KRYTYK! " + n + " zadaje ci dodatkowe " + eCM*100 + "% obrażeń");
+                        Console.WriteLine(n + " zadaje ci łącznie " + damage + " obrażeń");
+                        Program.currentPlayer.health -= damage;
+                    }
+                    else
+                    {
+                        double damage = rand.Next(1, p) - Program.currentPlayer.armorValue;
+                        Console.WriteLine(n + " zadaje ci łącznie " + damage + " obrażeń");
+                        Program.currentPlayer.health -= damage;
+                    }
+                    Console.ReadKey();
                 }
                 else if(input1.ToLower() == "b" || input1.ToLower() == "broń się" || input1.ToLower() == "obrona" || input1.ToLower() == "bron sie")
                 {
@@ -94,7 +127,7 @@ namespace TerrorDungeon
                     }
 
                     Console.WriteLine("Przygotowujesz się na cios od " + name + " w kontrze zadajesz " + attack + " obrażeń");
-                    Console.WriteLine("Samemu otrzymujesz " + damage + " obrażeń");
+                    Console.WriteLine("Samemu tracisz " + damage + " życia");
 
                     Program.currentPlayer.health -= damage;
                     h -= attack;
@@ -180,5 +213,7 @@ namespace TerrorDungeon
 
             }
         }
+        
+      
     }
 }
