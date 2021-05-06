@@ -6,7 +6,7 @@ About me:
 Currently Im coding very simple applications and games with hopes for the future to get into more advanced stuff and understand more languages, frameworks and tools.
 
 About this app:
-  TextInteractiveDungeon is my first ever learning project, that helps me build my knowledge and understanding of programming. As I said it is very simple, many things probably
+  TextInteractiveDungeon is my first ever learning project that helps me build my knowledge and understanding of programming. As I said it is very simple, many things probably
 could have been done better, but atleast im having fun and I feel like im learning something.
 
 
