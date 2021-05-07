@@ -272,19 +272,20 @@ namespace TerrorDungeon
                         h -= attack;
                     }
 
-
-                    if (randomCritValueE > eCC)
-                    {
-                        double damage = (rand.Next(1, p) * eCM) - Program.currentPlayer.armorValue;
-                        Console.WriteLine("KRYTYK! " + n + " zadaje ci dodatkowe " + eCM*100 + "% obrażeń");
-                        Console.WriteLine(n + " zadaje ci łącznie " + damage + " obrażeń");
-                        Program.currentPlayer.health -= damage;
-                    }
-                    else
-                    {
-                        double damage = rand.Next(1, p) - Program.currentPlayer.armorValue;
-                        Console.WriteLine(n + " zadaje ci łącznie " + damage + " obrażeń");
-                        Program.currentPlayer.health -= damage;
+                    if (h > 0) { 
+                        if (randomCritValueE > eCC)
+                        {
+                            double damage = (rand.Next(1, p) * eCM) - Program.currentPlayer.armorValue;
+                            Console.WriteLine("KRYTYK! " + n + " zadaje ci dodatkowe " + eCM*100 + "% obrażeń");
+                            Console.WriteLine(n + " zadaje ci łącznie " + damage + " obrażeń");
+                            Program.currentPlayer.health -= damage;
+                        }
+                        else
+                        {
+                            double damage = rand.Next(1, p) - Program.currentPlayer.armorValue;
+                            Console.WriteLine(n + " zadaje ci łącznie " + damage + " obrażeń");
+                            Program.currentPlayer.health -= damage;
+                        }
                     }
                     Console.ReadKey();
                 }
