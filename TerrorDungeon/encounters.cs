@@ -212,6 +212,7 @@ namespace TerrorDungeon
                 }
                 while (h <= 0)
                 {
+                    Console.Clear();
                     Console.WriteLine("Twój przeciwnik leży na ziemi w kałuży krwi.\n");
                     Console.ReadKey();
                     Console.Clear();

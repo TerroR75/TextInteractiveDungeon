@@ -51,6 +51,7 @@ namespace TerrorDungeon
 
                 Console.Write("Wpisz co chcesz zrobić (wstań/śpij): ");
                 string akcja1 = Console.ReadLine();
+                Console.Clear();
                 if (akcja1.ToLower() == "śpij" || akcja1.ToLower() == "spij")
                 {
                     Console.Clear();
