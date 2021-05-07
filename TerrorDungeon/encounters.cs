@@ -23,8 +23,9 @@ namespace TerrorDungeon
             Combat(false, "Ranny Bandyta", "", 30, 4, 0, 0, 0);
 
         }
-        public static void RandomEncounter()
+        public static void RandomEncounter1()
         {
+            Console.Clear();
             Console.WriteLine("Coś słyszysz.. hałas, zgrzyt, szelest.., a może szept?");
             Console.ReadKey();
             Console.WriteLine("Nagle zza zakrętu wyskakuje na Ciebie...");
@@ -35,6 +36,16 @@ namespace TerrorDungeon
 
         //Encounter Tools
 
+        public static void RandomEncounterHolder()
+        {
+            switch (rand.Next(0, 1))
+            {
+                case 0:
+                    RandomEncounter1();
+                    break;
+
+            }
+        }
         public static void Combat(bool random, string name, string rarity, int health, int power, int armor, double eCritChance, double eCritMulti)
         {
             string typeOfMonster = "";

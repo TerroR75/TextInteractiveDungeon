@@ -19,10 +19,15 @@ namespace TerrorDungeon
         }
         
         public static Player currentPlayer = new Player();
+        public static bool mainLoop = true;
         // KONSOLA
         static void Main(string[] args)
         {
             Start();
+            while (mainLoop)
+            {
+                encounters.RandomEncounterHolder();
+            }
         }
 
 
@@ -43,7 +48,6 @@ namespace TerrorDungeon
                     Console.Write("Nazwa postaci: ");
                     currentPlayer.name = Console.ReadLine();
                     Console.Clear();
-                    encounters.RandomEncounter();
                 }
 
 
