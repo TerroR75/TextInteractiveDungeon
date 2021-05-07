@@ -37,6 +37,8 @@ namespace TerrorDungeon
 
         public static void Combat(bool random, string name, string rarity, int health, int power, int armor, double eCritChance, double eCritMulti)
         {
+            string typeOfMonster = "";
+            string monsterSuffix = "";
             string n = "";
             string pref = "";
             int p = 0;
@@ -52,13 +54,126 @@ namespace TerrorDungeon
 
             if (random)
             {
+                // TYPE OF MONSTER SELECTION - type of monsters is assigned based on its name stored in |string n|
                 n = LosowaNazwaPrzeciwnika();
+
+                        // spirits
+                if (n == "Zjawa" || n == "Duch" || n == "Upiór")
+                    typeOfMonster = "spirit";
+                        // humanlike
+                else if (n == "Bandyta")
+                    typeOfMonster = "humanlike";
+                        // undead
+                else if (n == "Ghoul" || n == "Zombie" || n == "Zgnilec" || n == "Topielec")
+                    typeOfMonster = "undead";              
+
+                //=== PREFIX SELECTION + PREFIX and TYPE BOOSTS ===//
                 pref = LosowyPrefixPrzeciwnika();
-                p = rand.Next(1, 11);
-                h = rand.Next(1, 11);
-                a = rand.Next(1, 11);
+
+                // TYPE BOOST - stats increase based on monster type
+                h = rand.Next(10, 21);
+                if (typeOfMonster == "undead")
+                    h = h * 1.3;
+                a = rand.Next(1, 3);
+                if (typeOfMonster == "spirit")
+                    a = 0;
+                p = rand.Next(5, 11);
                 eCC = 0.95;
-                eCM = 1 + rand.NextDouble();
+                eCM = 1.2;
+
+
+                // RARIRTY BOOST - further increased stats based on monster rarity
+
+                if (pref == "[Magic] ")
+                {
+
+                        int randomNumber = rand.Next(0, 5);
+                        if (randomNumber == 0)
+                        {
+                            p = Convert.ToInt32(p * 1.2);
+                            monsterSuffix = "|Powered|";
+                        }
+                        else if (randomNumber == 1)
+                        {
+                            h = h * 1.3;
+                            monsterSuffix = "|Durable|";
+                        }
+                        else if (randomNumber == 2)
+                        {
+                            a = Convert.ToInt32(a * 1.3);
+                            monsterSuffix = "|Tough|";
+                        }
+                        else if (randomNumber == 3)
+                        {
+                            eCC -= 0.5;
+                            monsterSuffix = "|Crit Lucky|";
+                        }
+                        else if (randomNumber == 4)
+                        {
+                            eCM += 0.3;
+                            monsterSuffix = "|Empowered|";
+                        }
+                    
+
+                }
+                else if (pref == "[RARE] ")
+                {
+
+                        int randomNumber = rand.Next(0, 2);
+
+                        if (randomNumber == 0)
+                        {
+                            p = Convert.ToInt32(p * 1.5);
+                            eCC -= 0.10;
+                            eCM += 0.5;
+                            monsterSuffix = "|Hard Hitter|";
+                        }
+                        else if (randomNumber == 1)
+                        {
+                            a = Convert.ToInt32(a * 1.5);
+                            h = h * 1.5;
+                            monsterSuffix = "|Armored|";
+
+                        }
+                }
+                else if (pref == "[ENRAGED] ")
+                {
+                    h = h / 3;
+                    a = a / 3;
+                    int randomNumber = rand.Next(0, 5);
+                        if (randomNumber == 0 || randomNumber == 1)
+                    {
+                        p = Convert.ToInt32(p * 3);
+                        monsterSuffix = "|of Killing|";
+                    }
+                        else if (randomNumber == 2 || randomNumber == 3)
+                    {
+                        eCC -= 0.35;
+                        eCM += 1.3;
+                        monsterSuffix = "|of Precision|";
+                    }
+                        else if (randomNumber == 4)
+                    {
+                        p = Convert.ToInt32(p * 2.5);
+                        eCC -= 0.25;
+                        eCM += 1.8;
+                        monsterSuffix = "|of Deadly Precision|";
+                    }
+
+                    
+                }
+                else if (pref == "[MINI BOSS] ")
+                {
+                    h = h * 3;
+                    a = Convert.ToInt32(a * 1.5);
+                    p = Convert.ToInt32(p * 3);
+                    eCC -= 0.05;
+                    eCM += 0.8;
+                    monsterSuffix = "|of Conquer|";
+
+                }
+
+
             }
             else
             {
@@ -110,15 +225,25 @@ namespace TerrorDungeon
                         Console.ResetColor();
                     }
                 }
-                        Console.Write(n);
+                        Console.Write(n +" "+monsterSuffix);
                 Console.WriteLine("\nSiła wroga: " + p);
-                Console.WriteLine("Życie wroga: " + h);
-                Console.WriteLine("---------------------------");
-                Console.WriteLine("\n\n=======================");
+                Console.WriteLine("Życie wroga: " + h+"\n");
+                Console.WriteLine("Crit %: " + (1 - eCC) * 100 + "% " + " Crit multi: " + eCM * 100 + "%");
+                Console.WriteLine("---------------------------\n\n\n");
+                Console.WriteLine(Program.currentPlayer.name);
+                Console.WriteLine("=======================");
                 Console.WriteLine("(A)takuj    (B)roń się");
                 Console.WriteLine("(U)ciekaj   (L)ecz się");
                 Console.WriteLine("=======================");
+                Console.Write("Crit chance: ");
+                Console.Write((1 - pCC - Program.currentPlayer.weaponCritChance)*100);
+                Console.Write("%       ");
+                Console.Write("Crit multi: ");
+                Console.Write((pCM + Program.currentPlayer.weaponCritDmgMult) * 100);
+                Console.Write("%\n");
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Życie: "+Program.currentPlayer.health);
+                Console.ResetColor();
                 Console.WriteLine("Poty: " + Program.currentPlayer.potion);
                 Console.Write("Twój ruch: ");
                 string input1 = Console.ReadLine();
