@@ -37,11 +37,13 @@ namespace TerrorDungeon
 
                 while (currentPlayer.name == "")
                 {
-
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Terror Dungeon!");
+                    Console.ResetColor();
                     Console.Write("Nazwa postaci: ");
                     currentPlayer.name = Console.ReadLine();
                     Console.Clear();
+                    encounters.RandomEncounter();
                 }
 
 
@@ -67,10 +69,15 @@ namespace TerrorDungeon
                 }
                 else if (akcja1.ToLower() == "wstan" || akcja1.ToLower() == "wstań")
                 {
-
+                    Print("Zmysły spowija ciemność, chwile później nagły szelest za szałasem...\n");
+                    Print("nim się orientujesz, wybiega na Ciebie człowiek niskiej postury\n");
+                    Print("Sprawia wrażenie rannego. W mngnieniu oka, sprawnym ruchem wyciąga sztylet...\n\n");
+                    Console.ReadKey();
+                    Console.WriteLine("Ranny Bandyta:");
+                    Print("Ehhh... Miałem nadzieję, że będziesz się mniej wiercił niż poprzednik.");
                     Console.ReadKey();
                     Console.Clear();
-                    encounters.Encounter1();
+                    
                     Console.ReadKey();
                 }
             }

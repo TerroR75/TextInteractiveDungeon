@@ -17,20 +17,28 @@ namespace TerrorDungeon
         //Encounters
         public static void Encounter1()
         {
-            Console.WriteLine("Z głębi ciemności słyszysz szelest krzaków i zauważasz nagły zryw...");
             Console.WriteLine("Lokalny bandzior ze sztyletem szarżuje prosto na Ciebie.");
             Console.ReadKey();
             Console.Clear();
-            Combat(false, "Ranny Bandyta", 30, 4, 0, 0,0);
+            Combat(false, "Ranny Bandyta", "", 30, 4, 0, 0, 0);
 
         }
-
+        public static void RandomEncounter()
+        {
+            Console.WriteLine("Coś słyszysz.. hałas, zgrzyt, szelest.., a może szept?");
+            Console.ReadKey();
+            Console.WriteLine("Nagle zza zakrętu wyskakuje na Ciebie...");
+            Console.ReadKey();
+            Console.Clear();
+            Combat(true, "", "", 0, 0, 0, 0, 0);
+        }
 
         //Encounter Tools
 
-        public static void Combat(bool random, string name, int health, int power, int armor, double eCritChance, double eCritMulti)
+        public static void Combat(bool random, string name, string rarity, int health, int power, int armor, double eCritChance, double eCritMulti)
         {
             string n = "";
+            string pref = "";
             int p = 0;
             double h = 0;
             int a = 0;
@@ -44,7 +52,13 @@ namespace TerrorDungeon
 
             if (random)
             {
-
+                n = LosowaNazwaPrzeciwnika();
+                pref = LosowyPrefixPrzeciwnika();
+                p = rand.Next(1, 11);
+                h = rand.Next(1, 11);
+                a = rand.Next(1, 11);
+                eCC = 0.95;
+                eCM = 1 + rand.NextDouble();
             }
             else
             {
@@ -52,6 +66,7 @@ namespace TerrorDungeon
                 p = power;
                 h = health;
                 a = armor;
+                pref = rarity;      
                 // MONSTER Crit chance & multi
                 eCC -= (eCritChance / 100);
                 eCM += (eCritMulti / 100);
@@ -61,10 +76,45 @@ namespace TerrorDungeon
             }
             while(h > 0)
             {
-                Console.WriteLine(n);
-                Console.WriteLine("Siła wroga: " + p);
+                Console.WriteLine("---------------------------");
+                if (random)
+                {
+                    if (pref == "[Magic] ")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write(pref);
+                        Console.ResetColor();
+                    }
+                    else if (pref == "[RARE] ")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write(pref);
+                        Console.ResetColor();
+                    }
+                    else if (pref == "[ENRAGED] ")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.Write(pref);
+                        Console.ResetColor();
+                    }
+                    else if (pref == "[MINI BOSS] ")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(pref);
+                        Console.ResetColor();
+                    }
+                    else if (pref == "[normal] ")
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(pref);
+                        Console.ResetColor();
+                    }
+                }
+                        Console.Write(n);
+                Console.WriteLine("\nSiła wroga: " + p);
                 Console.WriteLine("Życie wroga: " + h);
-                Console.WriteLine("=======================");
+                Console.WriteLine("---------------------------");
+                Console.WriteLine("\n\n=======================");
                 Console.WriteLine("(A)takuj    (B)roń się");
                 Console.WriteLine("(U)ciekaj   (L)ecz się");
                 Console.WriteLine("=======================");
@@ -183,6 +233,7 @@ namespace TerrorDungeon
                             int bonus = potionHealth / 2;
                             int potionAndBonus = potionHealth + bonus;
                             Console.WriteLine("!!! BONUSOWE powodzenie !!! (+50% bonusowa siła leczenia)");
+                            Console.WriteLine("Leczysz się za "+potionAndBonus+" punktów życia");
                             Program.currentPlayer.health += potionAndBonus;
                             Program.currentPlayer.potion--;
                             Console.ReadKey();
@@ -210,23 +261,83 @@ namespace TerrorDungeon
                     }    
 
                 }
-                while (h <= 0)
+                if(Program.currentPlayer.health <= 0)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Twój przeciwnik leży na ziemi w kałuży krwi.\n");
+                    // ŚMIERĆ
+                    Console.WriteLine("NIE ŻYJESZ.");
                     Console.ReadKey();
-                    Console.Clear();
-                    Console.WriteLine("Podchodzisz, aby zebrać to, co z niego zostało i znajdujesz:\n");
-                    Console.ReadKey();
-                    int coinsLoot = rand.Next(5, 21);
-                    Console.WriteLine(coinsLoot + " monet");
-                    Program.currentPlayer.coins += coinsLoot;
-                    Console.ReadLine();
-                    break;
+                    System.Environment.Exit(0);
                 }
 
             }
+            if (h <= 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Twój przeciwnik leży na ziemi w kałuży krwi.\n");
+                Console.WriteLine("Podchodzisz, aby zebrać to, co z niego zostało i znajdujesz:\n");
+                Console.ReadKey();
+                int coinsLoot = rand.Next(5, 21);
+                Console.WriteLine(coinsLoot + " monet");
+                Program.currentPlayer.coins += coinsLoot;
+                Console.ReadLine();
+            }
         }
+
+        public static string LosowaNazwaPrzeciwnika()
+        {
+            switch (rand.Next(1, 11))
+            {
+                case 1:
+                    return "Szkielet Wojownik";
+                case 2:
+                    return "Slime";
+                case 3:
+                    return "Ghoul";
+                case 4:
+                    return "Zjawa";
+                case 5:
+                    return "Upiór";
+                case 6:
+                    return "Szkielet Łucznik";
+                case 7:
+                    return "Zombie";
+                case 8:
+                    return "Zgnilec";
+                case 9:
+                    return "Topielec";
+                case 10:
+                    return "Poczwara";
+            }
+            return "Bandyta";
+        }
+        public static string LosowyPrefixPrzeciwnika()
+        {
+            double prefMagicC = rand.NextDouble();
+            double prefRareC = rand.NextDouble();
+            double prefEnragedC = rand.NextDouble();
+            double prefMiniBossC = rand.NextDouble();
+
+
+            if (prefMiniBossC > 0.95)
+            {
+                return "[MINI BOSS] ";
+            }
+            else if (prefEnragedC > 0.90)
+            {
+                return "[ENRAGED] ";
+            }
+            else if (prefRareC > 0.90)
+            {
+                return "[RARE] ";
+            }
+            else if (prefMagicC > 0.80)
+            {
+                return "[Magic] ";
+            }
+            return "[normal] ";
+
+        }
+
         
       
     }
