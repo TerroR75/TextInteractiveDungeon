@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TerrorDungeon
 {
     class Program
     {
+
         // Wypisywanie liter
         public static void Print(string text, int speed = 10)
         {
@@ -23,10 +26,13 @@ namespace TerrorDungeon
         // KONSOLA
         static void Main(string[] args)
         {
+            if (!Directory.Exists("saves"))
+            {
+                Directory.CreateDirectory("saves");
+            }
             Start();
             while (mainLoop)
             {
-             
                 encounters.RandomEncounterHolder();
             }
         }
@@ -86,6 +92,59 @@ namespace TerrorDungeon
                     Console.ReadKey();
                 }
             }
+        }
+
+        public static void Save()
+        {
+            BinaryFormatter binForm = new BinaryFormatter();
+            string path = "saves/" + currentPlayer.id.ToString();
+            FileStream file = File.Open(path, FileMode.OpenOrCreate);
+            binForm.Serialize(file, currentPlayer);
+            file.Close();
+        }
+        public static Player Load()
+        {
+            Console.Clear();
+         
+            string[] paths = Directory.GetDirectories("saves");
+            List<Player> players = new List<Player>();
+
+            BinaryFormatter binForm = new BinaryFormatter();
+            foreach (string p in paths)
+            {
+                FileStream file = File.Open(p, FileMode.Open);
+                Player player = (Player)binForm.Deserialize(file);
+                file.Close();
+                players.Add(player);
+            }
+
+            while (true)
+            {
+                Console.Clear();
+
+                Console.WriteLine("Wybierz zapisany stan gry: ");
+
+                foreach (Player p in players)
+                {
+                    Console.WriteLine(p.id + ": " + p.name);
+                }
+                Console.WriteLine("Wybierz zapisaną grę po id lub nazwie gracza (id:# LUB playername)");
+                string[] data = Console.ReadLine().Split(':');
+
+                try
+                {
+                    if (data[0] == "id")
+                    {
+
+                    }
+                }
+                catch(IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Your id needs to be a number! Press any key to continue");
+                    Console.ReadKey();
+                }
+            }
+            
         }
     }
 }
