@@ -26,6 +26,7 @@ namespace TerrorDungeon
             Start();
             while (mainLoop)
             {
+             
                 encounters.RandomEncounterHolder();
             }
         }

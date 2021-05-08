@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TerrorDungeon
 {
-    class encounters
+    public class encounters
     {
         static Random rand = new Random();
         static Random rand2 = new Random();
@@ -53,7 +53,7 @@ namespace TerrorDungeon
             string n = "";
             string pref = "";
             int p = 0;
-            double h = 0;
+            int h = 0;
             int a = 0;
             // MONSTER crit chance & multi
             double eCC = 0.95;
@@ -84,7 +84,7 @@ namespace TerrorDungeon
                 // TYPE BOOST - stats increase based on monster type
                 h = rand.Next(10, 21);
                 if (typeOfMonster == "undead")
-                    h = h * 1.3;
+                    h = Convert.ToInt32(h * 1.3);
                 a = rand.Next(1, 3);
                 if (typeOfMonster == "spirit")
                     a = 0;
@@ -106,7 +106,7 @@ namespace TerrorDungeon
                         }
                         else if (randomNumber == 1)
                         {
-                            h = h * 1.3;
+                            h = Convert.ToInt32(h * 1.3);
                             monsterSuffix = "|Durable|";
                         }
                         else if (randomNumber == 2)
@@ -142,7 +142,7 @@ namespace TerrorDungeon
                         else if (randomNumber == 1)
                         {
                             a = Convert.ToInt32(a * 1.5);
-                            h = h * 1.5;
+                            h = Convert.ToInt32(h * 1.5);
                             monsterSuffix = "|Armored|";
 
                         }
@@ -236,6 +236,8 @@ namespace TerrorDungeon
                         Console.ResetColor();
                     }
                 }
+
+                // USER "INTERFACE"
                         Console.Write(n +" "+monsterSuffix);
                 Console.WriteLine("\nSiła wroga: " + p);
                 Console.WriteLine("Życie wroga: " + h+"\n");
@@ -246,6 +248,7 @@ namespace TerrorDungeon
                 Console.WriteLine("(A)takuj    (B)roń się");
                 Console.WriteLine("(U)ciekaj   (L)ecz się");
                 Console.WriteLine("=======================");
+                Console.WriteLine($"STATYSTYKI:\nAtak: {Program.currentPlayer.weaponPower}\nPancerz: {Program.currentPlayer.armorValue}\n==================");
                 Console.Write("Crit chance: ");
                 Console.Write((1 - pCC - Program.currentPlayer.weaponCritChance)*100);
                 Console.Write("%       ");
@@ -273,14 +276,14 @@ namespace TerrorDungeon
                         Console.WriteLine("KRYTYK! Zadajesz dodatkowe " +pCM*100+"% obrażeń");
                         Console.WriteLine("Wykonujesz zamach bronią i uderzasz " + n + " za łącznie " + attack + " punktów życia.");
                         Console.WriteLine("==========================\n");
-                        h -= attack;
+                        h -= Convert.ToInt32(attack);
                     }
                     else
                     {
                         double attack = (rand.Next(2, Program.currentPlayer.weaponPower) + rand.Next(1, 4))- a;
                         Console.WriteLine("Wykonujesz zamach bronią i uderzasz " + n + " za " + attack + " punktów życia.");
                         Console.WriteLine("==========================\n");
-                        h -= attack;
+                        h -= Convert.ToInt32(attack);
                     }
 
                     if (h > 0) { 
@@ -318,7 +321,7 @@ namespace TerrorDungeon
                     Console.WriteLine("Samemu tracisz " + damage + " życia");
 
                     Program.currentPlayer.health -= damage;
-                    h -= attack;
+                    h -= Convert.ToInt32(attack);
                 }
                 else if (input1.ToLower() == "u" || input1.ToLower() == "uciekaj" || input1.ToLower() == "ucieczka")
                 {
@@ -339,6 +342,7 @@ namespace TerrorDungeon
                     {
                         Console.WriteLine("Udaje ci się uciec z walki!");
                         Console.ReadKey();
+                        Shop.LoadShop(Program.currentPlayer);
                         // go to store
                     }
 
@@ -410,13 +414,31 @@ namespace TerrorDungeon
             if (h <= 0)
             {
                 Console.Clear();
+                Console.WriteLine($"Udało ci się pokonać: {pref} {n} {monsterSuffix}  ({typeOfMonster})");
                 Console.WriteLine("Twój przeciwnik leży na ziemi w kałuży krwi.\n");
                 Console.WriteLine("Podchodzisz, aby zebrać to, co z niego zostało i znajdujesz:\n");
                 Console.ReadKey();
                 int coinsLoot = rand.Next(5, 21);
+                if (pref.Contains("[Magic] "))
+                {
+                    coinsLoot = Convert.ToInt32(coinsLoot * 1.2);
+                }
+                else if (pref.Contains("[RARE] "))
+                {
+                    coinsLoot = Convert.ToInt32(coinsLoot * 1.4);
+                }
+                else if (pref.Contains("[ENRAGED] "))
+                {
+                    coinsLoot = Convert.ToInt32(coinsLoot * 1.4);
+                }
+                else if (pref.Contains("[MINI BOSS] "))
+                {
+                    coinsLoot = Convert.ToInt32(coinsLoot * 1.8);
+                }
                 Console.WriteLine(coinsLoot + " monet");
                 Program.currentPlayer.coins += coinsLoot;
                 Console.ReadLine();
+                Shop.LoadShop(Program.currentPlayer);
             }
         }
 
