@@ -101,7 +101,7 @@ namespace TerrorDungeon
         }
 
 
-        static Player NewStart(int i)
+        public static Player NewStart(int i)
         {
             Console.Clear();
             Player p = new Player();
