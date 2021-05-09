@@ -426,9 +426,22 @@ namespace TerrorDungeon
                 if(Program.currentPlayer.health <= 0)
                 {
                     // ŚMIERĆ
-                    Console.WriteLine("NIE ŻYJESZ.");
+                    Console.WriteLine("NIE ŻYJESZ. Kliknij dowolny przycisk, aby wrócić do menu głównego...");
                     Console.ReadKey();
-                    System.Environment.Exit(0);
+                    Console.Clear();
+                    Program.currentPlayer.coins = 0;
+                    Program.currentPlayer.health = 10;
+                    Program.currentPlayer.damage = 1;
+                    Program.currentPlayer.armorValue = 0;
+                    Program.currentPlayer.potion = 5;
+                    Program.currentPlayer.weaponPower = 5;
+                    Program.currentPlayer.weaponCritDmgMult = 0;
+                    Program.currentPlayer.weaponCritChance = 0;
+                    Program.currentPlayer.playerXP = 0;
+                    Program.currentPlayer.playerLEVEL = 1;
+                    Program.currentPlayer.killCount = 0;
+                    Program.currentPlayer.playerCurrentWeapon = "";
+                    Program.currentPlayer.playerCurrentArmor = "";
                 }
 
             }
