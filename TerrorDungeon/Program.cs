@@ -30,7 +30,13 @@ namespace TerrorDungeon
             {
                 Directory.CreateDirectory("saves");
             }
-            Start();
+            currentPlayer = Load(out bool newP);
+
+            if (newP)
+            {
+                encounters.Encounter1();
+            }
+
             while (mainLoop)
             {
                 encounters.RandomEncounterHolder();
@@ -94,6 +100,34 @@ namespace TerrorDungeon
             }
         }
 
+
+        static Player NewStart(int i)
+        {
+            Console.Clear();
+            Player p = new Player();
+
+                Console.Write("Name: ");
+                p.name = Console.ReadLine();
+
+            p.id = i;
+            Console.Clear();
+            Console.WriteLine("historia11");
+            Console.WriteLine("historia111");
+            Console.WriteLine("historia111");
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("historia111");
+            Console.WriteLine("historia111");
+            Console.WriteLine("historia111");
+            Console.WriteLine("historia111");
+            Console.ReadKey();
+            return p;
+        }
+        public static void Quit()
+        {
+            Save();
+            Environment.Exit(0);
+        }
         public static void Save()
         {
             BinaryFormatter binForm = new BinaryFormatter();
@@ -102,12 +136,13 @@ namespace TerrorDungeon
             binForm.Serialize(file, currentPlayer);
             file.Close();
         }
-        public static Player Load()
+        public static Player Load(out bool newP)
         {
+            newP = false;
             Console.Clear();
-         
-            string[] paths = Directory.GetDirectories("saves");
+            string[] paths = Directory.GetFiles("saves");
             List<Player> players = new List<Player>();
+            int idCount = 0;
 
             BinaryFormatter binForm = new BinaryFormatter();
             foreach (string p in paths)
@@ -117,25 +152,65 @@ namespace TerrorDungeon
                 file.Close();
                 players.Add(player);
             }
+            idCount = players.Count;
 
             while (true)
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("The Incubator");
+                Console.ResetColor();
 
-                Console.WriteLine("Wybierz zapisany stan gry: ");
+                Console.WriteLine("\n\nChoose saved game: ");
 
                 foreach (Player p in players)
                 {
                     Console.WriteLine(p.id + ": " + p.name);
                 }
-                Console.WriteLine("Wybierz zapisaną grę po id lub nazwie gracza (id:# LUB playername)");
+                Console.WriteLine("Input player id or name (id:# OR playername)\n");
+                Console.WriteLine("To create a new game, input CREATE");
                 string[] data = Console.ReadLine().Split(':');
 
                 try
                 {
                     if (data[0] == "id")
                     {
+                        if (int.TryParse(data[1], out int id))
+                        {
+                            foreach(Player player in players)
+                            {
+                                if(player.id == id)
+                                {
+                                    return player;
+                                }
+                            }
+                            Console.WriteLine("There is no player with that id!");
+                            Console.ReadKey();
 
+                        }
+                        else
+                        {
+                            Console.WriteLine("Your id needs to be a number! Press any key to continue.");
+                            Console.ReadKey();
+                        }
+                    }
+                    else if(data[0] == "CREATE" || data[0] == "create")
+                    {
+                        Player newPlayer = NewStart(idCount);
+                        newP = true;
+                        return newPlayer;
+                    }
+                    else
+                    {
+                        foreach(Player player in players)
+                        {
+                            if (player.name == data[0])
+                            {
+                                return player;
+                            }
+                        }
+                        Console.WriteLine("There is no player with that name!");
+                        Console.ReadKey();
                     }
                 }
                 catch(IndexOutOfRangeException)

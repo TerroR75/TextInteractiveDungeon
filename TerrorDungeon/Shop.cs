@@ -342,10 +342,12 @@ namespace TerrorDungeon
                 {
                     Console.WriteLine($"\n5. Potions: {potionNumber} / 2");
                 }
-                
-                
-                // 6. LEAVE
-                Console.WriteLine("6. WYJDŹ");
+
+                // 6. Save & Quit
+                Console.WriteLine("6. Save & Quit");
+
+                // 7. LEAVE
+                Console.WriteLine("7. Quit the shop");
 
                 // Player's choice 
                 Console.WriteLine($"\n\n{Program.currentPlayer.name}");
@@ -454,6 +456,7 @@ namespace TerrorDungeon
                         itemW2 = "";
                         Console.ReadKey();
                         Console.Clear();
+                        
                     }
                     else
                     {
@@ -540,8 +543,15 @@ namespace TerrorDungeon
                         Console.Clear();
                     }
                 }
-                // 6. LEAVE  THE SHOP
+                // 6. SAVE & QUIT
                 else if (input == '6')
+                {
+                    Console.WriteLine("Leaving the incubator... for now.");
+                    Console.ReadKey();
+                    Program.Quit();
+                }
+                // 7. LEAVE  THE SHOP
+                else if (input == '7')
                 {
                     Console.WriteLine("\n\nOpuszcasz sklep...");
                     Console.WriteLine("Wciśnij dowolny przycisk.");
