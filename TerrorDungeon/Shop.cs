@@ -235,9 +235,9 @@ namespace TerrorDungeon
                 // SHOP USER INTERFACE
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"             Magiczny Sklep   {licznikUzyc}/2       ");
+                Console.WriteLine($"             Magical Shop   {licznikUzyc}/2       ");
                 Console.ResetColor();
-                Console.WriteLine("==========Lista przedmiotów============");
+                Console.WriteLine("==========Item List============");
                 // 1.
                 Console.Write("\n1. ");
                 if (itemW1.Contains("[M] "))
@@ -256,9 +256,9 @@ namespace TerrorDungeon
                 Console.ResetColor();
                 if (itemW1 != "")
                 {
-                    Console.Write(" za " + itemPriceW1 + " monet");
+                    Console.Write(" for " + itemPriceW1 + " gold coins");
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("    (+" + itemStatValueW1 + " ataku)");
+                    Console.Write("    (+" + itemStatValueW1 + " attack)");
                     Console.ResetColor();
                 }
                
@@ -280,9 +280,9 @@ namespace TerrorDungeon
                 Console.ResetColor();
                 if (itemW2 != "")
                 {
-                    Console.Write(" za " + itemPriceW2 + " monet");
+                    Console.Write(" for " + itemPriceW2 + " gold coins");
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("    (+" + itemStatValueW2 + " ataku)");
+                    Console.Write("    (+" + itemStatValueW2 + " attack)");
                     Console.ResetColor();
                 }
                 
@@ -305,9 +305,9 @@ namespace TerrorDungeon
                 Console.ResetColor();
                 if (itemA1 != "")
                 {
-                    Console.Write(" za " + itemPriceA1 + " monet");
+                    Console.Write(" for " + itemPriceA1 + " gold coins");
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("    (+" + itemStatValueA1 + " pancerza)");
+                    Console.Write("    (+" + itemStatValueA1 + " armour)");
                     Console.ResetColor();
                 }
                
@@ -330,9 +330,9 @@ namespace TerrorDungeon
                 Console.ResetColor();
                 if (itemA2 != "")
                 {
-                    Console.Write(" za " + itemPriceA2 + " monet");
+                    Console.Write(" for " + itemPriceA2 + " gold coins");
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("    (+" + itemStatValueA2 + " pancerza)");
+                    Console.Write("    (+" + itemStatValueA2 + " armour)");
                     Console.ResetColor();
                 }
 
@@ -356,7 +356,7 @@ namespace TerrorDungeon
 
 
                 // ======================LISTING PLAYER'S EQUIPMENT START=======================
-                Console.Write("Broń: ");
+                Console.Write("Weapon: ");
                 if (Program.currentPlayer.playerCurrentWeapon.Contains("[M] "))
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
@@ -379,7 +379,7 @@ namespace TerrorDungeon
                 {
                     Console.Write(Program.currentPlayer.playerCurrentWeapon + " " + Program.currentPlayer.weaponPower + "       ");
                 }
-                Console.Write("Pancerz: ");
+                Console.Write("Armour: ");
                 if (Program.currentPlayer.playerCurrentArmor.Contains("[M] "))
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
@@ -407,7 +407,7 @@ namespace TerrorDungeon
 
 
 
-                Console.Write("\nNumer przedmiotu:");
+                Console.Write("\nItem number:");
                 /*string input;
                 input = Convert.ToString(Console.ReadKey());*/
                 char input = Console.ReadKey().KeyChar;
@@ -422,9 +422,9 @@ namespace TerrorDungeon
                         licznikUzyc++;
                         Program.currentPlayer.coins -= itemPriceW1;
                         p.weaponPower = itemStatValueW1;
-                        Console.WriteLine("\n\nKupiłeś: " + itemW1 + " za " + itemPriceW1 + " monet");
-                        Console.WriteLine("Zyskujesz: " + itemStatValueW1 + " obrażeń");
-                        Console.WriteLine("Wciśnij dowolny przycisk.");
+                        Console.WriteLine("\n\nYou bought: " + itemW1 + " for " + itemPriceW1 + " gold coins");
+                        Console.WriteLine("You gain: " + itemStatValueW1 + " damage");
+                        Console.WriteLine("Press any button.");
                         itemW1 = "";
                         Console.ReadKey();
                         Console.Clear();
@@ -450,9 +450,9 @@ namespace TerrorDungeon
                         licznikUzyc++;
                         Program.currentPlayer.coins -= itemPriceW2;
                         Program.currentPlayer.weaponPower = itemStatValueW2;
-                        Console.WriteLine("\n\nKupiłeś: " + itemW2 + " za " + itemPriceW2 + " monet");
-                        Console.WriteLine("Zyskujesz: " + itemStatValueW2 + " obrażeń");
-                        Console.WriteLine("Wciśnij dowolny przycisk.");
+                        Console.WriteLine("\n\n You bought: " + itemW2 + " for " + itemPriceW2 + " gold coins");
+                        Console.WriteLine("You gain: " + itemStatValueW2 + " damage");
+                        Console.WriteLine("Press any button.");
                         itemW2 = "";
                         Console.ReadKey();
                         Console.Clear();
@@ -460,7 +460,7 @@ namespace TerrorDungeon
                     }
                     else
                     {
-                        Console.WriteLine("\n\nNie stać cię.");
+                        Console.WriteLine("\n\nYou cannot afford that.");
                         Console.ReadLine();
                     }
                     
@@ -476,17 +476,17 @@ namespace TerrorDungeon
                         licznikUzyc++;
                         Program.currentPlayer.coins -= itemPriceA1;
                         Program.currentPlayer.armorValue = itemStatValueA1;
-                        Console.WriteLine("\n\nKupiłeś: " + itemA1 + " za " + itemPriceA1 + " monet");
-                        Console.WriteLine("Zyskujesz: " + itemStatValueA1 + " obrażeń");
-                        Console.WriteLine("Wciśnij dowolny przycisk.");
+                        Console.WriteLine("\n\nYou Bought: " + itemA1 + " for " + itemPriceA1 + " gold coins.");
+                        Console.WriteLine("You gain: " + itemStatValueA1 + " damage");
+                        Console.WriteLine("Press any button.");
                         itemA1 = "";
                         Console.ReadKey();
                         Console.Clear();
                     }
                     else
                     {
-                        Console.WriteLine("\n\nNie stać cię.");
-                        Console.WriteLine("Wciśnij dowolny przycisk.");
+                        Console.WriteLine("\n\nYou cannot afford that.");
+                        Console.WriteLine("Press any button.");
                         Console.ReadKey();
                         Console.Clear();
                     }
@@ -504,17 +504,17 @@ namespace TerrorDungeon
                         licznikUzyc++;
                         Program.currentPlayer.coins -= itemPriceA2;
                         Program.currentPlayer.armorValue = itemStatValueA2;
-                        Console.WriteLine("\n\nKupiłeś: " + itemA2 + " za " + itemPriceA2 + " monet");
-                        Console.WriteLine("Zyskujesz: " + itemStatValueA2 + " obrażeń");
+                        Console.WriteLine("\n\nYou bought: " + itemA2 + " for " + itemPriceA2 + " gold coins");
+                        Console.WriteLine("You gain: " + itemStatValueA2 + " damage");
                         itemA2 = "";
-                        Console.WriteLine("Wciśnij dowolny przycisk.");
+                        Console.WriteLine("Press any button.");
                         Console.ReadKey();
                         Console.Clear();
                     }
                     else
                     {
-                        Console.WriteLine("\n\nNie stać cię.");
-                        Console.WriteLine("Wciśnij dowolny przycisk.");
+                        Console.WriteLine("\n\nYou cannot afford that.");
+                        Console.WriteLine("Press any button.");
                         Console.ReadKey();
                         Console.Clear();
                     }
@@ -529,16 +529,16 @@ namespace TerrorDungeon
                         Program.currentPlayer.potion++;
                         Program.currentPlayer.coins -= potionPrice;
                         Console.ForegroundColor = ConsoleColor.White;
-                        Console.WriteLine($"\n\nKupiłeś leczący eliksir! za {potionPrice}");
+                        Console.WriteLine($"\n\nYou bought healing potion for {potionPrice}");
                         Console.ResetColor();
-                        Console.WriteLine("Wciśnij dowolny przycisk.");
+                        Console.WriteLine("Press any button.");
                         Console.ReadKey();
                         Console.Clear();
                     }
                     else
                     {
-                        Console.WriteLine("\n\nNie stać cię.");
-                        Console.WriteLine("Wciśnij dowolny przycisk.");
+                        Console.WriteLine("\n\nYou cannot afford that.");
+                        Console.WriteLine("Press any button.");
                         Console.ReadKey();
                         Console.Clear();
                     }
@@ -553,8 +553,8 @@ namespace TerrorDungeon
                 // 7. LEAVE  THE SHOP
                 else if (input == '7')
                 {
-                    Console.WriteLine("\n\nOpuszcasz sklep...");
-                    Console.WriteLine("Wciśnij dowolny przycisk.");
+                    Console.WriteLine("\n\nYou are leaving the shop.");
+                    Console.WriteLine("Press any button.");
                     Console.ReadKey();
                     break;
                 }
