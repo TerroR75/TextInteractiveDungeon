@@ -7,7 +7,8 @@ This is my first ever fun little learning project from 2021 for C# and game desi
 ## Features
 
 - Random enemy generator 
-https://i.imgur.com/iyb5X0w.png
+![Alt text](https://i.imgur.com/iyb5X0w.png "enemy generator")
+
 
 - Live previews
 - Fullscreen mode
