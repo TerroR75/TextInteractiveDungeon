@@ -4,6 +4,8 @@
 This is my first ever fun little learning project from 2021 for C# and game design in general.
 "TerrorDungeon" - small, rpg, dungeon crawler console game.
 
+Im proud of it, but it has lots of bad practices, code is barely readable - overall its not very good but it made me passionate about programming logic. I had lots of ideas of how to improve this game, basically every new feature sparked another 2 ideas, but I abandoned it for about a year and decided to upload it here on Github as a relict of my journey.
+
 ## Features
 
 - Random enemy generator
